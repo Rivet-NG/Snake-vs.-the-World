@@ -1,0 +1,77 @@
+class Point {
+  constructor(x, y) {
+    this.x_ = x;
+    this.y_ = y;
+  }
+  get x() {
+    return this.x_;
+  }
+  get y() {
+    return this.y_;
+  }
+}
+
+class Snake {
+  constructor(snakeColor) {
+    this.color_ = snakeColor;
+    this.position_ = new Point(0, 0);
+    this.direction_ = "Down";
+  }
+  move(numOfSquares) {
+    if (this.direction_ == "Right") this.position_ = new Point(this.position_.x + numOfSquares, this.position_.y);
+    else if (this.direction_ == "Left") this.position_ = new Point(this.position_.x - numOfSquares, this.position_.y);
+    else if (this.direction_ == "Up") this.position_ = new Point(this.position_.x, this.position_.y - numOfSquares);
+    else  if (this.direction_ == "Down") this.position_ = new Point(this.position_.x, this.position_.y + numOfSquares);
+  }
+  turnLeft() { 
+    if (this.direction_ == "Up") this.direction_ = "Left";
+    else if (this.direction_ == "Down") this.direction_ = "Right";
+    else if (this.direction_ == "Left") this.direction_ = "Down";
+    else if (this.direction_ == "Right") this.direction_ = "Up"; 
+  }
+  turnRight() { 
+    if (this.direction_ == "Up") this.direction_ = "Right";
+    else if (this.direction_ == "Down") this.direction_ = "Left";
+    else if (this.direction_ == "Left") this.direction_ = "Up";
+    else if (this.direction_ == "Right") this.direction_ = "Down"; 
+  }
+  get position() {
+    return this.position_;
+  }
+}    
+
+class WorldModel {
+  constructor(s) {
+    if (s instanceof Snake) this.snake_ = s;
+    else throw new Error("Not an actual snake color");
+  }
+  update(steps) {
+    this.snake_.move(steps);
+  }
+  get snake() {
+    return this.snake_;
+  }
+  set color(s) {
+    if (s instanceof Snake) {
+      this.color_ = s;
+    }
+  }
+}
+
+let brownSnake = new Snake("brown");
+let sandWorld = new WorldModel(brownSnake);
+
+sandWorld.update(52);
+console.log(sandWorld.snake.position);
+brownSnake.turnLeft();
+sandWorld.update(81);
+console.log(sandWorld.snake.position);
+
+let blackSnake = new Snake("black");
+let hotWorld = new WorldModel(blackSnake); 
+
+hotWorld.update(14);
+console.log(hotWorld.snake.position);
+blackSnake.turnRight();
+hotWorld.update(93);
+console.log(hotWorld.snake.position);
