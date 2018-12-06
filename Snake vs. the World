@@ -1,3 +1,5 @@
+// A game in which two snakes travel through their respective worlds.
+
 class Point {
   constructor(x, y) {
     this.x_ = x;
